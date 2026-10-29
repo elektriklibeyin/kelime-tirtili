@@ -790,11 +790,22 @@ function crossword() {
   cw.addEventListener('input', e => {
     const inp = e.target, k = inp.dataset.k; if (!k) return;
     if (inp.readOnly) { inp.value = val.get(k) || ''; return; }
-    const ch = (inp.value || '').replace(/[^a-zA-ZıİçÇğĞöÖşŞüÜ]/g, '').slice(-1).replace(/ı/g, 'i').replace(/İ/g, 'I').toUpperCase();
-    if (!/^[A-Z]$/.test(ch)) { inp.value = val.get(k) || ''; return; }
-    val.set(k, ch); inp.value = ch; inp.parentNode.classList.remove('bad');
-    checkWords(k);
-    if (!solved.has(act)) { const p = placed[act]; const i = p.cells.indexOf(k); for (let j = i + 1; j < p.cells.length; j++) { if (!inputs.get(p.cells[j]).readOnly) { inputs.get(p.cells[j]).focus(); break; } } }
+    // Hızlı yazımda ya da yapıştırmada kutuya birden çok harf gelebilir: harfler kelimenin sonraki kutularına dağıtılır.
+    let chars = [...(inp.value || '').replace(/ı/g, 'i').replace(/İ/g, 'I').toUpperCase().replace(/[^A-Z]/g, '')];
+    const prev = val.get(k);
+    if (chars.length > 1 && prev && chars[0] === prev) chars = chars.slice(1);
+    if (!chars.length) { inp.value = prev || ''; return; }
+    const was = act, p = placed[act];
+    let i = Math.max(0, p.cells.indexOf(k)), last = k;
+    for (const ch of chars) {
+      while (i < p.cells.length && inputs.get(p.cells[i]).readOnly && p.cells[i] !== k) i++;
+      if (i >= p.cells.length) break;
+      const ck = p.cells[i], ci = inputs.get(ck);
+      val.set(ck, ch); ci.value = ch; ci.parentNode.classList.remove('bad'); last = ck; i++;
+    }
+    inp.value = val.get(k) || '';
+    for (const ck of p.cells) if (val.get(ck)) checkWords(ck);
+    if (act === was && !solved.has(act)) { const j0 = p.cells.indexOf(last); for (let j = j0 + 1; j < p.cells.length; j++) { if (!inputs.get(p.cells[j]).readOnly) { inputs.get(p.cells[j]).focus(); break; } } }
   });
   cw.addEventListener('keydown', e => {
     const inp = e.target, k = inp.dataset && inp.dataset.k; if (!k) return;
