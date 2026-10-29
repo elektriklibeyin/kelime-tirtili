@@ -740,8 +740,9 @@ function crossword() {
   [...placed].sort((a, c) => a.r - c.r || a.c - c.c).forEach(p => { const k = p.cells[0]; if (!nums.has(k)) nums.set(k, ++n); p.num = nums.get(k); });
   const val = new Map(), solved = new Set(), revealed = new Set(), xp0 = S.xp;
   let act = 0, dir = placed[0].dir, done = false;
-  const avail = Math.min(app.clientWidth - 32, 728);
-  const cs = Math.max(24, Math.min(40, Math.floor(avail / cols)));
+  const pad = parseFloat(getComputedStyle(app).paddingLeft) + parseFloat(getComputedStyle(app).paddingRight);
+  const avail = Math.min(app.clientWidth - pad, 728) - (cols - 1) * 2 - 4;
+  const cs = Math.max(22, Math.min(40, Math.floor(avail / cols)));
   let gridHTML = '';
   for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
     const k = r + ',' + c;

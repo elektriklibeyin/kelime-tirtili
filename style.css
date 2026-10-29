@@ -226,8 +226,8 @@ select.inp { appearance: auto; }
 /* bulmaca */
 .cw-clue { background: var(--card); box-shadow: var(--sh); border-radius: 14px; padding: 10px 14px; font-size: 17px; min-height: 46px; position: sticky; top: 8px; z-index: 5; }
 .cw-clue b { color: var(--leaf-d); margin-right: 6px; }
-.cw-wrap { overflow-x: auto; padding: 14px 0 4px; display: flex; justify-content: center; }
-.cw { display: grid; gap: 2px; }
+.cw-wrap { overflow-x: auto; padding: 14px 2px 4px; }
+.cw { display: grid; gap: 2px; width: max-content; margin: 0 auto; }
 .cw-x { width: var(--cs); height: var(--cs); }
 .cw-c { position: relative; width: var(--cs); height: var(--cs); background: #fff; border-radius: 6px; box-shadow: 0 0 0 2px #cbd9bf; }
 .cw-c.hl { background: var(--sun-l); }
