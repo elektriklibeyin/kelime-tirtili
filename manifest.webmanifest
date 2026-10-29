@@ -1,0 +1,11 @@
+{
+  "name": "Kelime Tırtılı",
+  "short_name": "Kelime Tırtılı",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f8ea",
+  "theme_color": "#4f9f31",
+  "lang": "tr",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
